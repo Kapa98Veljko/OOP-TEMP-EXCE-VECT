@@ -1,8 +1,10 @@
 #ifndef STACK_H
 #define STACK_H
 
+#include"Exceptions.h"
 #include<iostream>
 #include<string>
+
 using namespace std;
 
 //As i mentioned my class has to generic which is accomplish with this syntax
@@ -14,8 +16,9 @@ class Stack {
 public:
 	Stack();//Constructor
 //Now i will need some methods
-	bool push(T in);
-	bool pop(T* out);
+//Because i use exceptions i dont need bool return tzpe any more
+	void push(T in);
+	T pop();
 	bool isEmpty();
 private:
 	//This is my array of elements of type T
@@ -34,23 +37,23 @@ Stack<T, MaxStackSize>::Stack() {
 
 
 template<typename T, int MaxStackSize>
-bool Stack<T, MaxStackSize>:: push(T in) {
-	if (sp == MaxStackSize - 1) {
-		cout << "Doslo je do prekorracenja!" << endl;
-		return false;
+void Stack<T, MaxStackSize>:: push(T in) {
+	//Here exception should be trown if size == MaxStackSize
+	//If exception is trown program is delayed and it seek's first available try/catch that deals with it
+	if (sp == MaxStackSize ) {
+		throw new StackOverFlowException("Stek je pun.Ne moze da se odradi operacija push!");
+	
 	}
  stack[sp++] = in;
- return true; 
 }
 
 template<typename T, int MaxStackSize>
-bool Stack<T, MaxStackSize>::pop(T* out) {
+T Stack<T, MaxStackSize>::pop() {
 	if (sp == 0) {
-		cout << "Ne postoji sadrzaj u steku!" << endl;
-		return false;
+		throw new StackUnderFlowException("Stek je prazan.Ne moze da se odradi operacija pop!");
 	}
-	*out = stack[--sp];
-	return true;
+	return stack[--sp];
+	
 }
 
 template<typename T, int MaxStackSize>

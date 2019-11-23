@@ -4,32 +4,34 @@ using namespace std;
 //alphabeticaly i guess
 
 int main() {
-//So what i want to achieve is to make my second template, but now i want to know the story behind it 
-//If i do not know what is the type of the data that my class and the methods will receive than i make template that recognies one of 4 base type
-//That is shownin .h file
+//Now i need some test so for that purpose i will make some stack of ints
+	Stack<int, 3>* stack = new Stack<int,3>;
+//What's the trick now. First i will make try part of ccode like this
 
-//And now to make some ttest examples
-//So what is the rule here
-//The syntax is this
-	Stack<int, 256>* stack = new Stack<int,256>;
-	Stack<char, 128>* stackC = new Stack<char,128>;
-//Whit these objects i can anything that is inside the boundary of methods defined 
+	try {
+		cout << "PUSH 1" << endl; stack->push(1);
+		cout << "PUSH 2" << endl; stack->push(2);
+		cout << "PUSH 3" << endl; stack->push(3);
+		//When you delete coment lines this line will throu exception
+		//cout << "PUSH 4" << endl; stack->push(4);
+		cout << "POP =" << stack->pop()<<endl;
+		cout << "POP =" << stack->pop()<<endl; 
+		cout << "POP =" << stack->pop()<<endl;
+		cout<<"POP ="<<stack->pop()<<endl;
 
-	stack->push(2);
-	stack->push(1);
-	int x;
-	stack->pop(&x);
-	cout << x << endl;
+	}
+	catch (StackOverFlowException * se) {
+	//This is where message will be written if exception is trown
+		cout << se->what() << endl;
+	}
+	catch (StackUnderFlowException * se) {
+		cout << se->what() << endl;
+	}
 
-	stackC->push('a');
-	stackC->push('B');
-
-	char c;
-	stackC->pop(&c);
-	cout << c << endl;
-	stackC->pop(&c);
-	cout << c << endl;
-	stackC->pop(&c);
+	catch (StackException * se) {
+		cout << se->what() << endl;
+	}
 	delete stack;
-	delete stackC;
+	return 0;
 }
+	
